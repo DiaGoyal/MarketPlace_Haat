@@ -82,7 +82,7 @@ sequenceDiagram
 
 - **Idempotency key** on `POST /api/orders` with a unique index on customer + key, so a double click or a retry never creates two orders.
 - **Outbox pattern**: each service saves events in its own `outboxevents` collection first, and a relay publishes them. A broker outage does not lose events.
-- **Idempotent consumers**: handled event ids are stored (`processedevents`), so duplicate or replayed events are skipped. Handlers can also resume safely after a crash.
+- **Idempotent consumers**: handled event ids are stored (`processedevents`), so duplicate or replayed events are skipped. Payment handling can also resume safely after a crash.
 - **Escrow ledger**: a sale is *held* until delivery, then *available*, then *paid*.
 - **Payout maths**: `net = sales - commission - refunds + commission returned on refunds`. If a seller owes more than they earned, the balance carries to the next run. Running payouts twice never pays twice.
 - **Commission is stored per order**, so changing a seller's commission only affects new orders.
